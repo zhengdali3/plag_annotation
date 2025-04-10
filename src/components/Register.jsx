@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { APP_CONFIG } from '../config';
 
 function Register({ onRegisterSuccess }) {
   const [username, setUsername] = useState('');
@@ -19,7 +20,7 @@ function Register({ onRegisterSuccess }) {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch(`${APP_CONFIG.API_BASE_URL}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,6 @@ function Register({ onRegisterSuccess }) {
 
   return (
     <div>
-      <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <div>
           <label htmlFor="reg-username">Username:</label>
@@ -63,6 +63,9 @@ function Register({ onRegisterSuccess }) {
             required
           />
         </div>
+        <p className="info-message">
+          Note: All users share a common password that will be provided to you separately.
+        </p>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         <button type="submit" disabled={loading}>

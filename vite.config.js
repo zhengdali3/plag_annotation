@@ -7,4 +7,10 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  server: {
+    allowedHosts: [
+      'localhost',
+      'zhengdali3.xyz'
+    ]
+  }
 })

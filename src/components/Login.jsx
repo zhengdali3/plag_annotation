@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { APP_CONFIG } from '../config';
 
 function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -16,8 +18,21 @@ function Login({ onLoginSuccess }) {
       return;
     }
 
+    if (!password) {
+      setError('Please enter a password.');
+      setLoading(false);
+      return;
+    }
+
+    // Check if password matches the one in config
+    if (password !== APP_CONFIG.LOGIN_PASSWORD) {
+      setError('Invalid password.');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch(`${APP_CONFIG.API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,15 +59,24 @@ function Login({ onLoginSuccess }) {
 
   return (
     <div>
-      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Username: </label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password: </label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>

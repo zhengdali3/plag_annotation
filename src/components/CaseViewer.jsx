@@ -4,7 +4,14 @@ import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'; // Ch
 
 // Helper function to generate distinct colors (simple version)
 const generateColor = (index) => {
-  const colors = ['rgba(255, 0, 0, 0.3)', 'rgba(0, 0, 255, 0.3)', 'rgba(0, 255, 0, 0.3)', 'rgba(255, 255, 0, 0.3)', 'rgba(0, 255, 255, 0.3)', 'rgba(255, 0, 255, 0.3)'];
+  const colors = [
+    'rgba(255, 0, 0, 0.3)',
+    'rgba(0, 0, 255, 0.3)',
+    'rgba(0, 255, 0, 0.3)',
+    'rgba(255, 255, 0, 0.3)',
+    'rgba(0, 255, 255, 0.3)',
+    'rgba(255, 0, 255, 0.3)'
+  ];
   return colors[index % colors.length];
 };
 
@@ -22,7 +29,6 @@ const createLineProps = (matches, fileIndex, colorMap) => (lineNumber) => {
   });
   return props;
 };
-
 
 function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
   const [caseData, setCaseData] = useState(null);
@@ -46,40 +52,50 @@ function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
       try {
         // 1. Fetch case JSON data
         const caseResponse = await fetch(`http://localhost:3001/api/case/${caseFilename}`);
-        if (!caseResponse.ok) throw new Error(`Failed to fetch case data: ${caseResponse.statusText}`);
+        if (!caseResponse.ok)
+          throw new Error(`Failed to fetch case data: ${caseResponse.statusText}`);
         const data = await caseResponse.json();
         setCaseData(data);
 
-        // Generate colors for matches
+        // Generate colors for matches if available, otherwise it'll remain empty
         const colors = {};
-        data.matches.forEach((_, index) => {
+        if (data.matches && data.matches.length > 0) {
+          data.matches.forEach((_, index) => {
             colors[index] = generateColor(index);
-        });
+          });
+        }
         setMatchColors(colors);
 
-        // Ensure matches array exists and has at least one element
-        if (!data.matches || data.matches.length === 0) {
-            throw new Error('Case data is missing match information needed to fetch source files.');
+        // 2. Determine file paths to fetch.
+        // If there are matches, use the file paths from the first match.
+        // Otherwise, fall back to id1 and id2 which should contain the filenames.
+        let file1Path, file2Path;
+        if (data.matches && data.matches.length > 0) {
+          const firstMatch = data.matches[0];
+          file1Path = firstMatch.firstFile.replace(/\\/g, '/'); // Normalize the backslashes
+          file2Path = firstMatch.secondFile.replace(/\\/g, '/');
+        } else {
+          file1Path = data.id1.replace(/\\/g, '/');
+          file2Path = data.id2.replace(/\\/g, '/');
+          file1Path = `${file1Path}/${file1Path}`;
+          file2Path = `${file2Path}/${file2Path}`;
         }
-        const firstMatch = data.matches[0];
 
-        // 2. Fetch source file 1 content using the path from the first match
-        // Note: The file paths in the JSON might contain backslashes, ensure they are handled correctly for the URL
-        const file1Path = firstMatch.firstFile.replace(/\\/g, '/'); // Basic normalization
-        console.log(`Fetching file 1 from: /api/file/${file1Path}`); // Add logging
+        // 3. Fetch source file 1 content
+        console.log(`Fetching file 1 from: /api/file/${file1Path}`);
         const file1Response = await fetch(`http://localhost:3001/api/file/${file1Path}`);
-        if (!file1Response.ok) throw new Error(`Failed to fetch file ${firstMatch.firstFile}: ${file1Response.statusText}`);
+        if (!file1Response.ok)
+          throw new Error(`Failed to fetch file ${file1Path}: ${file1Response.statusText}`);
         const file1Text = await file1Response.text();
         setFile1Content(file1Text);
 
-        // 3. Fetch source file 2 content using the path from the first match
-        const file2Path = firstMatch.secondFile.replace(/\\/g, '/'); // Basic normalization
-        console.log(`Fetching file 2 from: /api/file/${file2Path}`); // Add logging
+        // 4. Fetch source file 2 content
+        console.log(`Fetching file 2 from: /api/file/${file2Path}`);
         const file2Response = await fetch(`http://localhost:3001/api/file/${file2Path}`);
-        if (!file2Response.ok) throw new Error(`Failed to fetch file ${firstMatch.secondFile}: ${file2Response.statusText}`);
+        if (!file2Response.ok)
+          throw new Error(`Failed to fetch file ${file2Path}: ${file2Response.statusText}`);
         const file2Text = await file2Response.text();
         setFile2Content(file2Text);
-
       } catch (err) {
         console.error('Error fetching case details:', err);
         setError(`Failed to load case details: ${err.message}. Is the backend running and paths correct?`);
@@ -108,7 +124,6 @@ function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
       }
       console.log(`Decision '${decision}' submitted for ${caseFilename}`);
       onDecisionMade(); // Notify parent to potentially refresh list state
-      // Optionally show a success message or automatically go back
     } catch (err) {
       console.error('Error submitting decision:', err);
       setSubmitError(`Failed to submit decision: ${err.message}`);
@@ -118,8 +133,20 @@ function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
   };
 
   if (loading) return <p>Loading case details...</p>;
-  if (error) return <div><p style={{ color: 'red' }}>{error}</p><button onClick={onBack}>Back to List</button></div>;
-  if (!caseData) return <div><p>No case data loaded.</p><button onClick={onBack}>Back to List</button></div>;
+  if (error)
+    return (
+      <div>
+        <p style={{ color: 'red' }}>{error}</p>
+        <button onClick={onBack}>Back to List</button>
+      </div>
+    );
+  if (!caseData)
+    return (
+      <div>
+        <p>No case data loaded.</p>
+        <button onClick={onBack}>Back to List</button>
+      </div>
+    );
 
   // Determine language for syntax highlighting (simple check)
   const language = caseData.id1.endsWith('.java') ? 'java' : 'clike'; // Default or guess based on extension
@@ -127,22 +154,35 @@ function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
   return (
     <div>
       <h2>Case: {caseFilename}</h2>
-      <button onClick={onBack} disabled={submitLoading}>Back to List</button>
+      <button onClick={onBack} disabled={submitLoading}>
+        Back to List
+      </button>
       <hr />
       <div>
         <strong>Similarity Scores:</strong>
         <ul>
           {Object.entries(caseData.similarities).map(([key, value]) => (
-            <li key={key}>{key}: {value.toFixed(4)}</li>
+            <li key={key}>
+              {key}: {value.toFixed(4)}
+            </li>
           ))}
         </ul>
       </div>
-       <div>
+      <div>
         <strong>Matches Legend:</strong>
         <ul>
           {caseData.matches.map((_, index) => (
             <li key={index} style={{ color: matchColors[index]?.replace('0.3', '1') }}>
-              Match {index + 1} <span style={{ display: 'inline-block', width: '20px', height: '10px', backgroundColor: matchColors[index], marginLeft: '5px' }}></span>
+              Match {index + 1}{' '}
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  height: '10px',
+                  backgroundColor: matchColors[index],
+                  marginLeft: '5px',
+                }}
+              ></span>
             </li>
           ))}
         </ul>
@@ -180,7 +220,11 @@ function CaseViewer({ caseFilename, currentUser, onBack, onDecisionMade }) {
         <button onClick={() => handleSubmitDecision('Plagiarism')} disabled={submitLoading}>
           Mark as Plagiarism
         </button>
-        <button onClick={() => handleSubmitDecision('Not Plagiarism')} disabled={submitLoading} style={{ marginLeft: '10px' }}>
+        <button
+          onClick={() => handleSubmitDecision('Not Plagiarism')}
+          disabled={submitLoading}
+          style={{ marginLeft: '10px' }}
+        >
           Mark as Not Plagiarism
         </button>
         {submitLoading && <p>Submitting...</p>}
