@@ -6,7 +6,7 @@ export const APP_CONFIG = {
   LOGIN_PASSWORD: "securePassword123",
   
   // API endpoints
-  API_BASE_URL: "http://localhost:3001",
+  API_BASE_URL: "",
   
   // Other frontend configuration options can be added here
 };

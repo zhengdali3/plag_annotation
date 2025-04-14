@@ -11,6 +11,12 @@ export default defineConfig({
     allowedHosts: [
       'localhost',
       'zhengdali3.xyz'
-    ]
+    ],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
+      }
+    }
   }
 })
