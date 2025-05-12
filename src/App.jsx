@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'; // Added useCallback
+import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
+import DatasetSelector from './components/DatasetSelector';
 import CaseList from './components/CaseList';
 import CaseViewer from './components/CaseViewer';
-import './App.css'; // Keep existing styles for now
+import './App.css';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [showLogin, setShowLogin] = useState(true); // Show login form by default
-  const [selectedCase, setSelectedCase] = useState(null); // State for the selected case filename
-  // State to force CaseList refresh after decision - increment a counter
+  const [currentUser, setCurrentUser]         = useState(null);
+  const [showLogin, setShowLogin]             = useState(true);
+  const [selectedDataset, setSelectedDataset] = useState(null);
+  const [selectedCase, setSelectedCase]       = useState(null);
   const [decisionCounter, setDecisionCounter] = useState(0);
 
-  // Persist user session (optional, using localStorage)
+  // Restore session
   useEffect(() => {
     const storedUser = localStorage.getItem('plagAnnoUser');
     if (storedUser) {
@@ -20,55 +21,32 @@ function App() {
     }
   }, []);
 
-  const handleLoginSuccess = (username) => {
+  const handleLoginSuccess = username => {
     setCurrentUser(username);
-    localStorage.setItem('plagAnnoUser', username); // Store user
+    localStorage.setItem('plagAnnoUser', username);
   };
 
-  const handleRegisterSuccess = (username) => {
-    // After successful registration, switch to the login view
+  const handleRegisterSuccess = username => {
     setShowLogin(true);
-    // Optionally log them in automatically:
+    // optionally auto‐login:
     // handleLoginSuccess(username);
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
-    localStorage.removeItem('plagAnnoUser'); // Clear stored user
-    setShowLogin(true); // Go back to login screen
+    localStorage.removeItem('plagAnnoUser');
+    setShowLogin(true);
+    setSelectedDataset(null);
+    setSelectedCase(null);
   };
 
+  // Main render
   return (
     <div className="App">
       <h1>Plagiarism Annotation Tool</h1>
 
-      {currentUser ? (
-        // --- Logged In View ---
-        <div>
-          <p>Welcome, {currentUser}! <button onClick={handleLogout}>Logout</button></p>
-          <hr />
-          {selectedCase ? (
-            <CaseViewer
-              key={selectedCase} // Force re-mount on case change if needed
-              caseFilename={selectedCase}
-              currentUser={currentUser}
-              onBack={() => setSelectedCase(null)} // Go back to list
-              onDecisionMade={() => {
-                setDecisionCounter(c => c + 1); // Increment counter to trigger potential list refresh
-                setSelectedCase(null); // Go back to list after decision
-              }}
-            />
-          ) : (
-            // Pass decisionCounter as key to force re-fetch in CaseList when decision is made
-            <CaseList
-              key={decisionCounter}
-              currentUser={currentUser}
-              onSelectCase={setSelectedCase}
-            />
-          )}
-        </div>
-      ) : (
-        // --- Logged Out View (Login/Register) ---
+      {!currentUser ? (
+        // Not logged in: show login/register
         <div>
           {showLogin ? (
             <>
@@ -86,6 +64,44 @@ function App() {
                 <button onClick={() => setShowLogin(true)}>Login here</button>
               </p>
             </>
+          )}
+        </div>
+      ) : (
+        // Logged in:
+        <div>
+          <p>
+            Welcome, {currentUser}!{' '}
+            <button onClick={handleLogout}>Logout</button>
+          </p>
+          <hr />
+
+          {!selectedDataset ? (
+            // 1) Pick a dataset first
+            <DatasetSelector onSelect={ds => setSelectedDataset(ds)} />
+          ) : selectedCase ? (
+            // 2) Then view a single case
+            console.log('Rendering CaseViewer with selectedCase:', selectedCase), // Add logging here
+            <CaseViewer
+              key={selectedCase.original}
+              dataset={selectedCase.dataset || selectedDataset} // Use dataset from selectedCase, fallback to selectedDataset
+              originalFilename={selectedCase.original}
+              anonymizedFilename={selectedCase.anonymized}
+              currentUser={currentUser}
+              onBack={() => setSelectedCase(null)}
+              onDecisionMade={() => {
+                setDecisionCounter(c => c + 1);
+                setSelectedCase(null);
+              }}
+              isSelectedCase={selectedCase.isSelectedCase} // Pass the flag
+            />
+          ) : (
+            // 3) Otherwise show the list of cases
+            <CaseList
+              key={decisionCounter}
+              dataset={selectedDataset}
+              currentUser={currentUser}
+              onSelectCase={setSelectedCase}
+            />
           )}
         </div>
       )}

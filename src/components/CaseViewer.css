@@ -1,0 +1,49 @@
+.modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal {
+    background: #fff;
+    padding: 1rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 4px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top:0.5rem; right:0.5rem;
+    border:none; background:transparent;
+    font-size:1.5rem; cursor:pointer;
+  }
+  .modal-pair {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .modal-snippet {
+    flex: 1;
+    background: #f7f7f7;
+    padding: 0.5rem;
+    overflow: auto;
+  }
+  .modal-snippet pre {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+/* Style for lines belonging to an assessed match */
+.assessed-line {
+  border-left: 3px solid rgba(0, 0, 0, 0.6); /* Dark, semi-transparent left border */
+  /* Adjust padding to keep text aligned. Assumes default padding is 1em.
+     The specific padding might depend on react-syntax-highlighter's internal structure.
+     If text alignment is off, this might need adjustment or a different approach. */
+  padding-left: calc(1em - 3px) !important; /* Use !important to override potential inline styles from the library */
+  box-sizing: border-box; /* Ensure padding is included within the element's width */
+}

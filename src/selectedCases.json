@@ -1,0 +1,182 @@
+[
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-AshDabFTW-assignment-1-danielkim04.json",
+    "anonymizedFilename": "assignment-1-user079-user107",
+    "similarity": 0.2845117845117845
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-aryu462-assignment-1-LiamSoftEng.json",
+    "anonymizedFilename": "assignment-1-user078-user014",
+    "similarity": 0.3036912751677852
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-ahac139-assignment-1-TrapezoidaI.json",
+    "anonymizedFilename": "assignment-1-user046-user052",
+    "similarity": 0.3142857142857143
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-zfu276-assignment-1-Lvan346.json",
+    "anonymizedFilename": "assignment-1-user026-user072",
+    "similarity": 0.32277526395173456
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-juliekxy-assignment-1-L1ghtn1ng1.json",
+    "anonymizedFilename": "assignment-1-user070-user138",
+    "similarity": 0.33172302737520126
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-sky-damon-assignment-1-vsor198.json",
+    "anonymizedFilename": "assignment-1-user250-user024",
+    "similarity": 0.3424657534246575
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-AshDabFTW-assignment-1-dkur670.json",
+    "anonymizedFilename": "assignment-1-user079-user007",
+    "similarity": 0.35353535353535354
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-ILL52-assignment-1-TrapezoidaI.json",
+    "anonymizedFilename": "assignment-1-user214-user052",
+    "similarity": 0.36895674300254455
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-LiamSoftEng-assignment-1-NewtonYuan.json",
+    "anonymizedFilename": "assignment-1-user014-user113",
+    "similarity": 0.39672131147540984
+  },
+  {
+    "dataset": "assignment-1-jplag",
+    "originalFilename": "assignment-1-TrapezoidaI-assignment-1-FCKEEN.json",
+    "anonymizedFilename": "assignment-1-user052-user010",
+    "similarity": 0.5466666666666666
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-lli393-assignment-2-Melloveisarmy.json",
+    "anonymizedFilename": "assignment-2-user267-user112",
+    "similarity": 0.2271186440677966
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-conradangwz-assignment-2-juliekxy.json",
+    "anonymizedFilename": "assignment-2-user006-user070",
+    "similarity": 0.24509803921568626
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-Zcol623-assignment-2-connieding.json",
+    "anonymizedFilename": "assignment-2-user089-user005",
+    "similarity": 0.25483870967741934
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-Melloveisarmy-assignment-2-jkan172.json",
+    "anonymizedFilename": "assignment-2-user112-user037",
+    "similarity": 0.2635135135135135
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-eczm137-assignment-2-jaydelal13.json",
+    "anonymizedFilename": "assignment-2-user093-user204",
+    "similarity": 0.2719546742209632
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-juliekxy-assignment-2-itsatulbox.json",
+    "anonymizedFilename": "assignment-2-user070-user036",
+    "similarity": 0.28313253012048195
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-Louiszhou05-assignment-2-nisa397.json",
+    "anonymizedFilename": "assignment-2-user175-user226",
+    "similarity": 0.29577464788732394
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-juliekxy-assignment-2-Patrick-Sheng.json",
+    "anonymizedFilename": "assignment-2-user070-user097",
+    "similarity": 0.3132530120481928
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-Zcol623-assignment-2-TonnyChenProgramming.json",
+    "anonymizedFilename": "assignment-2-user089-user253",
+    "similarity": 0.3419354838709677
+  },
+  {
+    "dataset": "assignment-2-jplag",
+    "originalFilename": "assignment-2-Nicky8566-assignment-2-lfan827.json",
+    "anonymizedFilename": "assignment-2-user056-user235",
+    "similarity": 0.5241935483870968
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-lfan827-assignment-3-JMUL290.json",
+    "anonymizedFilename": "assignment-3-user235-user029",
+    "similarity": 0.3463687150837989
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-tyooou-assignment-3-nadiaaskari.json",
+    "anonymizedFilename": "assignment-3-user088-user041",
+    "similarity": 0.36774193548387096
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-Timelessii-assignment-3-Andy-Huangg.json",
+    "anonymizedFilename": "assignment-3-user022-user090",
+    "similarity": 0.3790322580645161
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-kwan244-assignment-3-JackDMatthews.json",
+    "anonymizedFilename": "assignment-3-user201-user151",
+    "similarity": 0.38943894389438943
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-reybui-assignment-3-ExoticXe.json",
+    "anonymizedFilename": "assignment-3-user019-user131",
+    "similarity": 0.4
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-Tahallaman-assignment-3-hgao080.json",
+    "anonymizedFilename": "assignment-3-user129-user193",
+    "similarity": 0.411522633744856
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-Taljin21-assignment-3-pablopertu.json",
+    "anonymizedFilename": "assignment-3-user044-user210",
+    "similarity": 0.4244604316546763
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-tyooou-assignment-3-JMUL290.json",
+    "anonymizedFilename": "assignment-3-user088-user029",
+    "similarity": 0.44193548387096776
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-RageBuilder1-assignment-3-Puthikunkim.json",
+    "anonymizedFilename": "assignment-3-user098-user168",
+    "similarity": 0.46923076923076923
+  },
+  {
+    "dataset": "assignment-3-jplag",
+    "originalFilename": "assignment-3-kwan244-assignment-3-MEGARAY14.json",
+    "anonymizedFilename": "assignment-3-user201-user111",
+    "similarity": 0.6105610561056105
+  }
+]
